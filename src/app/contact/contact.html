@@ -1,0 +1,10 @@
+<main>
+    <h1>Contacts</h1>
+    <ul>
+        <li *ngFor="let contact of contacts;">
+            {{ contact.content }}
+        </li>
+    </ul>
+    <br />
+    <button (click)="createContact()">+ new</button>
+</main>

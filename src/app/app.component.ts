@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TodosComponent } from './todos/todos.component';
+import { ContactsComponent } from './contact/contact';
 import { Amplify } from 'aws-amplify';
 import outputs from '../../amplify_outputs.json';
 
@@ -11,7 +12,7 @@ Amplify.configure(outputs);
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [RouterOutlet, TodosComponent],
+  imports: [RouterOutlet, TodosComponent, ContactsComponent],
 })
 export class AppComponent {
   title = 'amplify-angular-template';
