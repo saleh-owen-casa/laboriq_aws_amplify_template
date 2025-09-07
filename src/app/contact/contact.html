@@ -1,10 +1,156 @@
-<main>
-    <h1>Contacts</h1>
-    <ul>
-        <li *ngFor="let contact of contacts;">
-            {{ contact.content }}
-        </li>
-    </ul>
-    <br />
-    <button (click)="createContact()">+ new</button>
-</main>
+<div class="contact-container">
+  <h2>Contact Management</h2>
+  
+  <!-- Message Display -->
+  <div *ngIf="message" class="message" [ngClass]="messageType">
+    {{ message }}
+  </div>
+
+  <!-- Create Contact Button -->
+  <button class="create-btn" (click)="showCreateFormToggle()">
+    {{ showCreateForm ? 'Cancel' : 'Create Contact' }}
+  </button>
+
+  <!-- Create Contact Form -->
+  <div *ngIf="showCreateForm" class="form-container">
+    <h3>Create New Contact</h3>
+    <form (ngSubmit)="createContact()" #contactForm="ngForm">
+      <div class="form-group">
+        <label for="firstName">First Name *</label>
+        <input 
+          type="text" 
+          id="firstName" 
+          name="firstName" 
+          [(ngModel)]="newContact.firstName" 
+          required
+          #firstName="ngModel">
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Last Name *</label>
+        <input 
+          type="text" 
+          id="lastName" 
+          name="lastName" 
+          [(ngModel)]="newContact.lastName" 
+          required
+          #lastName="ngModel">
+      </div>
+
+      <div class="form-group">
+        <label for="dateOfBirth">Date of Birth *</label>
+        <input 
+          type="date" 
+          id="dateOfBirth" 
+          name="dateOfBirth" 
+          [(ngModel)]="newContact.dateOfBirth" 
+          required
+          #dateOfBirth="ngModel">
+      </div>
+
+      <div class="form-group">
+        <label for="emailAddress">Email Address *</label>
+        <input 
+          type="email" 
+          id="emailAddress" 
+          name="emailAddress" 
+          [(ngModel)]="newContact.emailAddress" 
+          required
+          #emailAddress="ngModel">
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number</label>
+        <input 
+          type="tel" 
+          id="phoneNumber" 
+          name="phoneNumber" 
+          [(ngModel)]="newContact.phoneNumber"
+          #phoneNumber="ngModel">
+      </div>
+
+      <div class="form-group">
+        <label for="homeAddress">Home Address</label>
+        <textarea 
+          id="homeAddress" 
+          name="homeAddress" 
+          [(ngModel)]="newContact.homeAddress"
+          rows="3"
+          #homeAddress="ngModel"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="favoriteColor">Favorite Color</label>
+        <input 
+          type="text" 
+          id="favoriteColor" 
+          name="favoriteColor" 
+          [(ngModel)]="newContact.favoriteColor"
+          #favoriteColor="ngModel">
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="!contactForm.form.valid">Create Contact</button>
+        <button type="button" (click)="resetForm()">Reset</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Contacts List -->
+  <div class="contacts-list">
+    <h3>All Contacts</h3>
+    <div *ngIf="contacts.length === 0" class="no-contacts">
+      No contacts found. Create your first contact!
+    </div>
+    <div *ngFor="let contact of contacts" class="contact-item" (click)="getContactById(contact.id!)">
+      <div class="contact-info">
+        <span class="name">{{ contact.firstName }} {{ contact.lastName }}</span>
+        <span class="email">{{ contact.emailAddress }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Detail Modal -->
+  <div *ngIf="showContactDetail && selectedContact" class="modal-overlay" (click)="closeContactDetail()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Contact Details</h3>
+        <button class="close-btn" (click)="closeContactDetail()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-row">
+          <label>Record ID:</label>
+          <span>{{ selectedContact.id }}</span>
+        </div>
+        <div class="detail-row">
+          <label>First Name:</label>
+          <span>{{ selectedContact.firstName }}</span>
+        </div>
+        <div class="detail-row">
+          <label>Last Name:</label>
+          <span>{{ selectedContact.lastName }}</span>
+        </div>
+        <div class="detail-row">
+          <label>Date of Birth:</label>
+          <span>{{ selectedContact.dateOfBirth }}</span>
+        </div>
+        <div class="detail-row">
+          <label>Email Address:</label>
+          <span>{{ selectedContact.emailAddress }}</span>
+        </div>
+        <div class="detail-row" *ngIf="selectedContact.phoneNumber">
+          <label>Phone Number:</label>
+          <span>{{ selectedContact.phoneNumber }}</span>
+        </div>
+        <div class="detail-row" *ngIf="selectedContact.homeAddress">
+          <label>Home Address:</label>
+          <span>{{ selectedContact.homeAddress }}</span>
+        </div>
+        <div class="detail-row" *ngIf="selectedContact.favoriteColor">
+          <label>Favorite Color:</label>
+          <span>{{ selectedContact.favoriteColor }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
