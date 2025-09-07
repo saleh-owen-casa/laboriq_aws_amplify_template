@@ -14,10 +14,12 @@ const schema = a.schema({
     .authorization((allow) => [allow.publicApiKey()]),
   Contact: a
     .model({
-      firstName: a.string(),
-      lastName: a.string(),
-      emaiAddress: a.string(),
+      firstName: a.string().required(),
+      lastName: a.string().required(),
+      dateOfBirth: a.string().required(),
+      emailAddress: a.string().required(),
       phoneNumber: a.string(),
+      homeAddress: a.string(),
       favoriteColor: a.string()
     })
     .authorization((allow) => [allow.publicApiKey()]),
